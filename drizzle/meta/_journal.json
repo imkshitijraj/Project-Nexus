@@ -1,0 +1,55 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1785056135806,
+      "tag": "0000_spooky_captain_marvel",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1785057075263,
+      "tag": "0001_fresh_kid_colt",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1785058431092,
+      "tag": "0002_minor_dragon_lord",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1785059505668,
+      "tag": "0003_oval_calypso",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1785061049463,
+      "tag": "0004_yummy_gorgon",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1785061927062,
+      "tag": "0005_volatile_secret_warriors",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1785062877106,
+      "tag": "0006_high_husk",
+      "breakpoints": true
+    }
+  ]
+}
