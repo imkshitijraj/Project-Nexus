@@ -1,5 +1,5 @@
 import { and, desc, eq, sql } from "drizzle-orm";
-import { getChatGPTUser } from "../../chatgpt-auth";
+import { getWorkspaceUser } from "../../session-auth";
 import { getDb } from "../../../db";
 import {
   accessAuditEvents,
@@ -26,6 +26,12 @@ const providers = [
   "github",
   "google_drive",
   "webhooks",
+  "gitlab",
+  "discord",
+  "teams",
+  "zoom",
+  "google_meet",
+  "rest_api",
 ] as const;
 const automationActions = [
   "deadline_reminder",
@@ -74,8 +80,8 @@ function safeParse<T>(value: string, fallback: T): T {
 }
 
 async function resolveAdministrator() {
-  const user = await getChatGPTUser();
-  if (!user) return { error: "Sign in with ChatGPT to continue.", status: 401 as const };
+  const user = await getWorkspaceUser();
+  if (!user) return { error: "Sign in to continue.", status: 401 as const };
   const db = await getDb();
   const email = user.email.toLowerCase();
   const [membership] = await db
@@ -167,17 +173,14 @@ async function seedControlPlane(
     ]);
   }
 
-  const [{ integrations }] = await db
-    .select({ integrations: sql<number>`count(*)` })
-    .from(integrationConnections);
-  if (Number(integrations) === 0) {
+  for (const provider of providers) {
     await db.insert(integrationConnections).values(
-      providers.map((provider) => ({
+      {
         provider,
         status: "not_connected",
         updatedBy: email,
-      })),
-    );
+      },
+    ).onConflictDoNothing();
   }
 
   const defaults = [
@@ -651,7 +654,7 @@ export async function POST(request: Request) {
       const tokenPart = Array.from(secretBytes, (byte) =>
         byte.toString(16).padStart(2, "0"),
       ).join("");
-      const secret = `nx_live_${tokenPart}`;
+      const secret = `nexus_key_${tokenPart}`;
       const prefix = secret.slice(0, 16);
       const digest = await crypto.subtle.digest(
         "SHA-256",

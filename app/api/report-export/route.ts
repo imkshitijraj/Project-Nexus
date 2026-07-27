@@ -1,5 +1,5 @@
 import { and, desc, eq, inArray, or } from "drizzle-orm";
-import { getChatGPTUser } from "../../chatgpt-auth";
+import { getWorkspaceUser } from "../../session-auth";
 import { getDb } from "../../../db";
 import {
   approvalRequests,
@@ -105,7 +105,7 @@ function worksheet(name: string, rows: string[][], numericColumns = new Set<numb
 export async function GET(request: Request) {
   const requestId = crypto.randomUUID();
   try {
-    const user = await getChatGPTUser();
+    const user = await getWorkspaceUser();
     if (!user) return Response.json({ error: "Sign in to export reports." }, { status: 401 });
     const db = await getDb();
     const email = user.email.toLowerCase();
@@ -307,4 +307,3 @@ ${worksheet(
     );
   }
 }
-

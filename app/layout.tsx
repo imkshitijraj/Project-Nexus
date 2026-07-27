@@ -16,13 +16,11 @@ export const metadata: Metadata = {
   title: "Project Nexus | Enterprise Operations",
   description:
     "A secure project operations control plane for delivery, automation, reporting, integrations, and enterprise administration.",
-  other: {
-    "codex-preview": "development",
-  },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
   },
+  manifest: "/manifest.webmanifest",
 };
 
 export default function RootLayout({

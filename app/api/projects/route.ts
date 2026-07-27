@@ -1,5 +1,5 @@
 import { and, desc, eq } from "drizzle-orm";
-import { getChatGPTUser } from "../../chatgpt-auth";
+import { getWorkspaceUser } from "../../session-auth";
 import { getDb } from "../../../db";
 import {
   accessAuditEvents,
@@ -19,9 +19,9 @@ function errorMessage(error: unknown) {
 
 export async function GET() {
   try {
-    const user = await getChatGPTUser();
+    const user = await getWorkspaceUser();
     if (!user) {
-      return Response.json({ error: "Sign in with ChatGPT to continue." }, { status: 401 });
+      return Response.json({ error: "Sign in to continue." }, { status: 401 });
     }
     const db = await getDb();
     const email = user.email.toLowerCase();
@@ -63,10 +63,10 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const user = await getChatGPTUser();
+    const user = await getWorkspaceUser();
     if (!user) {
       return Response.json(
-        { error: "Sign in with ChatGPT to create a saved project." },
+        { error: "Sign in to create a saved project." },
         { status: 401 },
       );
     }
