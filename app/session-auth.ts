@@ -1,22 +1,20 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-export type ChatGPTUser = {
+export type WorkspaceUser = {
   displayName: string;
   email: string;
   fullName: string | null;
 };
 
-const USER_EMAIL_HEADER = "oai-authenticated-user-email";
-const USER_FULL_NAME_HEADER = "oai-authenticated-user-full-name";
-const USER_FULL_NAME_ENCODING_HEADER =
-  "oai-authenticated-user-full-name-encoding";
+const USER_EMAIL_HEADER = "x-nexus-user-email";
+const USER_FULL_NAME_HEADER = "x-nexus-user-name";
+const USER_FULL_NAME_ENCODING_HEADER = "x-nexus-user-name-encoding";
 const PERCENT_ENCODED_UTF8 = "percent-encoded-utf-8";
-const SIGN_IN_PATH = "/signin-with-chatgpt";
-const SIGN_OUT_PATH = "/signout-with-chatgpt";
-const CALLBACK_PATH = "/callback";
+const SIGN_IN_PATH = "/login";
+const SIGN_OUT_PATH = "/logout";
 
-export async function getChatGPTUser(): Promise<ChatGPTUser | null> {
+export async function getWorkspaceUser(): Promise<WorkspaceUser | null> {
   const requestHeaders = await headers();
   const email = requestHeaders.get(USER_EMAIL_HEADER);
   if (!email) return null;
@@ -35,21 +33,21 @@ export async function getChatGPTUser(): Promise<ChatGPTUser | null> {
   };
 }
 
-export async function requireChatGPTUser(
+export async function requireWorkspaceUser(
   returnTo: string,
-): Promise<ChatGPTUser> {
-  const user = await getChatGPTUser();
+): Promise<WorkspaceUser> {
+  const user = await getWorkspaceUser();
   if (user) return user;
 
-  redirect(chatGPTSignInPath(returnTo));
+  redirect(signInPath(returnTo));
 }
 
-export function chatGPTSignInPath(returnTo: string): string {
+export function signInPath(returnTo: string): string {
   const safeReturnTo = safeRelativeReturnPath(returnTo);
   return `${SIGN_IN_PATH}?return_to=${encodeURIComponent(safeReturnTo)}`;
 }
 
-export function chatGPTSignOutPath(returnTo = "/"): string {
+export function signOutPath(returnTo = "/"): string {
   const safeReturnTo = safeRelativeReturnPath(returnTo);
   return `${SIGN_OUT_PATH}?return_to=${encodeURIComponent(safeReturnTo)}`;
 }
@@ -70,11 +68,7 @@ function safeRelativeReturnPath(value: string): string {
 }
 
 function isReservedAuthPath(pathname: string): boolean {
-  return (
-    pathname === SIGN_IN_PATH ||
-    pathname === SIGN_OUT_PATH ||
-    pathname === CALLBACK_PATH
-  );
+  return pathname === SIGN_IN_PATH || pathname === SIGN_OUT_PATH;
 }
 
 function safeDecodeURIComponent(value: string): string | null {

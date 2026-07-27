@@ -1,5 +1,5 @@
 import { and, desc, eq, like } from "drizzle-orm";
-import { getChatGPTUser } from "../../chatgpt-auth";
+import { getWorkspaceUser } from "../../session-auth";
 import { getDb } from "../../../db";
 import { accessAuditEvents, workspaceMembers } from "../../../db/schema";
 
@@ -10,7 +10,7 @@ function csvCell(value: unknown) {
 export async function GET(request: Request) {
   const requestId = crypto.randomUUID();
   try {
-    const user = await getChatGPTUser();
+    const user = await getWorkspaceUser();
     if (!user) return Response.json({ error: "Sign in required." }, { status: 401 });
     const email = user.email.toLowerCase();
     const db = await getDb();

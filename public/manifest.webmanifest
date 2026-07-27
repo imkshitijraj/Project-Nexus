@@ -1,0 +1,23 @@
+{
+  "name": "Project Nexus",
+  "short_name": "Nexus",
+  "description": "Enterprise project, portfolio, and operations control plane.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#10261f",
+  "theme_color": "#10261f",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    { "name": "My Tasks", "url": "/?open=tasks" },
+    { "name": "Search", "url": "/?open=search" },
+    { "name": "Notifications", "url": "/?open=notifications" }
+  ]
+}

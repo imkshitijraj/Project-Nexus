@@ -1,5 +1,5 @@
 import { and, desc, eq, inArray } from "drizzle-orm";
-import { getChatGPTUser } from "../../chatgpt-auth";
+import { getWorkspaceUser } from "../../session-auth";
 import { getDb } from "../../../db";
 import {
   accessAuditEvents,
@@ -49,8 +49,8 @@ function fallbackBudget(project: typeof projects.$inferSelect): BudgetSnapshot {
 }
 
 async function resolveAccess() {
-  const user = await getChatGPTUser();
-  if (!user) return { error: "Sign in with ChatGPT to continue.", status: 401 as const };
+  const user = await getWorkspaceUser();
+  if (!user) return { error: "Sign in to continue.", status: 401 as const };
   const email = user.email.toLowerCase();
   const db = await getDb();
   const [membership] = await db

@@ -128,6 +128,42 @@ const providerMeta: Record<
     description: "Send signed Nexus events to approved HTTPS endpoints.",
     scopes: ["events.deliver"],
   },
+  gitlab: {
+    name: "GitLab",
+    mark: "GL",
+    description: "Link issues, merge requests, pipelines, and releases.",
+    scopes: ["projects.read", "issues.write"],
+  },
+  discord: {
+    name: "Discord",
+    mark: "D",
+    description: "Route community operations alerts and project updates.",
+    scopes: ["messages.write", "channels.read"],
+  },
+  teams: {
+    name: "Microsoft Teams",
+    mark: "T",
+    description: "Deliver approvals, meetings, and operational notifications.",
+    scopes: ["chat.write", "meetings.read"],
+  },
+  zoom: {
+    name: "Zoom",
+    mark: "Z",
+    description: "Create governed meetings and attach recordings or notes.",
+    scopes: ["meetings.write", "recordings.read"],
+  },
+  google_meet: {
+    name: "Google Meet",
+    mark: "GM",
+    description: "Create meeting rooms from milestones and incident commands.",
+    scopes: ["meetings.write", "calendar.events.read"],
+  },
+  rest_api: {
+    name: "REST API",
+    mark: "{}",
+    description: "Operate Nexus through scoped service credentials.",
+    scopes: ["api.read", "api.write"],
+  },
 };
 
 const permissionOptions = [
@@ -255,7 +291,7 @@ function qaData(): EnterpriseData {
       {
         id: 1,
         name: "Reporting pipeline",
-        prefix: "nx_demo_49bc8f31",
+        prefix: "nexus_demo_key",
         scopes: ["projects.view", "reports.export"],
         status: "active",
         lastUsedAt: now,
@@ -363,8 +399,9 @@ export function EnterpriseModule({
 
   const refresh = async () => {
     if (
-      window.location.hostname === "terminal.local" &&
-      new URLSearchParams(window.location.search).has("qa")
+      localStorage.getItem("nexus-open-workspace") === "true" ||
+      (window.location.hostname === "terminal.local" &&
+        new URLSearchParams(window.location.search).has("qa"))
     ) {
       setData(qaData());
       setLoading(false);
@@ -407,8 +444,9 @@ export function EnterpriseModule({
     setWorking(key);
     try {
       if (
-        window.location.hostname === "terminal.local" &&
-        new URLSearchParams(window.location.search).has("qa")
+        localStorage.getItem("nexus-open-workspace") === "true" ||
+        (window.location.hostname === "terminal.local" &&
+          new URLSearchParams(window.location.search).has("qa"))
       ) {
         if (payload.action === "toggleAutomation") {
           setData({
@@ -441,7 +479,7 @@ export function EnterpriseModule({
           });
         }
         if (payload.action === "createApiKey") {
-          setRevealedKey("nx_demo_not-a-real-secret");
+          setRevealedKey("nexus_demo_not_a_secret");
         }
         notify(message);
         return { ok: true };
@@ -966,7 +1004,7 @@ export function EnterpriseModule({
             </p>
           </div>
           <div className="integration-health">
-            <strong>{configuredIntegrations}/6</strong>
+            <strong>{configuredIntegrations}/{data.integrations.length}</strong>
             <span>Configured</span>
           </div>
         </section>
@@ -1452,7 +1490,7 @@ export function EnterpriseModule({
             >
               {data.policies.sso_mode === "disabled"
                 ? "Start SSO readiness"
-                : "Return to ChatGPT sign-in"}
+                : "Return to workspace sign-in"}
             </button>
           </article>
           <aside className="enterprise-panel sso-checklist">

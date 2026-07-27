@@ -1,158 +1,72 @@
-# Project Nexus Changelog
+# Changelog
 
-This changelog records the major production deployments completed for Project Nexus, from the first MVP to the current enterprise reliability release.
+All notable Project Nexus releases are documented here.
 
-## Current Release — Incident & Reliability Command Center
+## Unreleased
 
-### Added
+- Replaced platform-specific identity helpers with a provider-neutral Nexus session gateway
+- Removed third-party product attribution from source, interface copy, metadata, and documentation
+- Added independent deployment configuration and public repository documentation
+- Added repository security guidance, roadmap, license, and continuous integration
 
-- Incident and Reliability Command Center
-- Persistent operational service catalog
-- Live service-health monitoring
-- SEV-1 through SEV-4 incident classification
-- Incident commander assignment and status workflows
-- Approval-gated production changes
-- Implementation and rollback plans
-- Recovery runbooks and drill tracking
-- Recovery Time Objective (RTO), Recovery Point Objective (RPO), and availability targets
-- Project-level permission enforcement
-- Conflict protection and rate limiting
-- Immutable reliability evidence logs
-- Responsive light and dark interfaces
+## 2.8.0 - Expansion Suite
 
-## Portfolio Governance Control Plane
+- Added Nexus Intelligence insights and action proposals
+- Added universal project, task, and knowledge search
+- Added wiki, rich documents, templates, and version history
+- Added capacity planning, workload balancing, timesheets, leave, and skills
+- Added expenses, invoices, vendors, forecasting, and ROI views
+- Added timeline, portfolio, mind-map, and dependency views
+- Added installable PWA support and an offline workspace shell
 
-### Added
+## 2.7.0 - Direct Workspace and Goals
 
-- Persistent project risk register
-- Probability and impact scoring
-- Risk owners, mitigation plans, deadlines, and statuses
-- Interactive risk heat map and filtering
-- Governed milestone calendar with month and agenda views
-- Milestone ownership, blocking, completion, and notifications
-- Editable project health, progress, and target dates
-- Mandatory reasons for controlled changes
-- Conflict protection for simultaneous edits
-- Searchable governance change ledger
-- Project-level permission enforcement
-- Dashboard alerts and command-palette updates
+- Replaced the entrance gate with a branded loading sequence
+- Added guest demonstration workspace support
+- Added Goals and OKRs with key-result progress and project alignment
 
-## Editable Budgets & Revision Logs
+## 2.6.0 - Reliability Command
 
-### Added
+- Added service catalog and health monitoring
+- Added incident command from SEV-1 through SEV-4
+- Added approval-gated changes, rollback plans, runbooks, RTO, and RPO
+- Added immutable reliability evidence
 
-- Editable budget records for every project
-- Allocation, actual spend, commitments, forecast, and notes
-- Mandatory reason for every budget change
-- Automatic before-and-after revision history
-- Searchable, project-filtered budget logs
-- Administrator and manager edit permissions
-- Conflict protection for simultaneous edits
-- Immutable security audit records
+## 2.5.0 - Portfolio Governance
 
-## Enterprise Operations Control Plane
+- Added governed risks, milestones, delivery health, and target dates
+- Added ownership, mitigation plans, conflict detection, and change reasons
+- Added searchable governance history
 
-### Added
+## 2.4.0 - Financial Governance
 
-- Deadline reminder automation
-- Approval escalation rules
-- Recurring-task automation
-- Risk alerts and automatic status updates
-- Durable automation rules and execution history
-- Execution outcomes and request IDs
-- Portfolio productivity analytics
-- Workload forecasting
-- Budget-variance analysis
-- PDF and Excel-compatible report exports
-- Integration control center for Google Calendar, Gmail, Slack, GitHub, Google Drive, and webhooks
-- HTTPS-only webhook registration
-- Workspace security and data-retention policies
-- Custom role builder
-- Scoped API keys with one-time display, hashing, expiration, and revocation
-- Optional SSO-readiness controls
-- Administrator-only enterprise commands and audit records
+- Added editable allocations, actuals, commitments, and forecasts
+- Added mandatory revision reasons and before-and-after financial logs
 
-### Configuration
+## 2.3.0 - Enterprise Operations
 
-- External OAuth integrations require administrator credentials.
-- SSO requires identity-provider configuration.
+- Added durable automations and execution history
+- Added advanced reporting and downloadable exports
+- Added integrations control center, workspace policies, role builder, and API keys
 
-## Collaborative Operations Control Plane
+## 2.2.0 - Collaborative Operations
 
-### Added
+- Added persistent tasks, dependencies, assignments, comments, and mentions
+- Added operational notifications, activity ledger, rate limiting, and audit export
+- Added global command palette
 
-- Persistent collaborative task management
-- Workspace-member assignments and due dates
-- Enforced task dependencies
-- Project-scoped role authorization
-- Comments with verified email mentions
-- Operational notifications
-- Project activity ledger
-- Rate-limited server commands
-- Searchable audit history
-- CSV audit export
-- Global command palette with `Ctrl/Cmd + K`
-- Production error tracking with request IDs
+## 2.1.0 - Multi-User Workspace
 
-## Multi-User Workspace
+- Added invitations, workspace roles, project roles, approvals, and member controls
+- Added server-enforced command permissions and access history
 
-### Added
+## 2.0.0 - Secure Operations
 
-- Verified workspace invitations
-- Administrator, manager, member, and viewer workspace roles
-- Owner, manager, contributor, and viewer project roles
-- Server-enforced command permissions
-- Member suspension and role controls
-- Approval and rejection workflows
-- Access audit history
-- Invitation expiration and revocation
-- Protected initial administrator activation
-- Project-specific Access tab
+- Added identity-aware sessions, risk scoring, access events, and session controls
+- Added security center, permission matrix, and emergency workspace lockdown
 
-## Secure Access & Security Center
+## 1.0.0 - Initial MVP
 
-### Added
+- Added executive dashboard, projects, Kanban tasks, teams, calendar, budgets, risks, and reports
+- Added responsive light and dark interfaces
 
-- Secure ChatGPT sign-in experience
-- Verified identity-based access
-- Security risk score
-- Suspicious login detection
-- Blocked and flagged access events
-- Active-session controls
-- Role and permission matrix
-- Adaptive access protection
-- Emergency workspace lockdown
-- Secure sign-out
-- Responsive mobile security interface
-
-## Persistent Project Workspace
-
-### Added
-
-- Hosted database persistence
-- Reload-safe project creation
-- Real loading and saving states
-- Authenticated project creation
-- Database migration support
-- Safe fallback to demonstration data
-
-## Initial Interactive MVP
-
-### Added
-
-- Executive portfolio dashboard
-- Project portfolio and project creation
-- Kanban-style task management
-- Team capacity and workload views
-- Portfolio calendar
-- Budget tracking and alerts
-- Risk register with heat map
-- Executive report templates
-- Responsive desktop and mobile navigation
-- Light and dark appearance settings
-- Notification center
-- Realistic demonstration data
-
-## Current Production Link
-
-[Open Project Nexus](https://project-nexus.imkshitijraj.chatgpt.site)

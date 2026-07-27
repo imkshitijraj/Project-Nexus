@@ -1,5 +1,5 @@
 import { and, desc, eq, sql } from "drizzle-orm";
-import { getChatGPTUser } from "../../chatgpt-auth";
+import { getWorkspaceUser } from "../../session-auth";
 import { getDb } from "../../../db";
 import {
   accessAuditEvents,
@@ -12,7 +12,8 @@ import {
 
 const workspaceRoles = ["administrator", "manager", "member", "viewer"] as const;
 const projectRoles = ["owner", "manager", "contributor", "viewer"] as const;
-const initialWorkspaceOwner = "kshitij.raj.96@gmail.com";
+const initialWorkspaceOwner =
+  process.env.NEXUS_OWNER_EMAIL?.trim().toLowerCase() ?? "owner@nexus.local";
 type WorkspaceRole = (typeof workspaceRoles)[number];
 type ProjectRole = (typeof projectRoles)[number];
 
@@ -82,8 +83,8 @@ async function recordAudit(
 }
 
 async function resolveMembership() {
-  const user = await getChatGPTUser();
-  if (!user) return { error: "Sign in with ChatGPT to continue.", status: 401 as const };
+  const user = await getWorkspaceUser();
+  if (!user) return { error: "Sign in to continue.", status: 401 as const };
 
   const email = user.email.toLowerCase();
   const db = await getDb();
