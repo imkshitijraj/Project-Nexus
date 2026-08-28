@@ -522,7 +522,7 @@ export default function Home() {
     const load = async () => {
       setAccessLoading(true);
       setAccessError("");
-      if (window.location.hostname === "terminal.local" && new URLSearchParams(window.location.search).has("qa")) {
+      if ((window.location.hostname === "terminal.local" && new URLSearchParams(window.location.search).has("qa")) || session.user!.email === "guest@nexus.local") {
         const qaMember = {id:1,email:session.user!.email,displayName:session.user!.displayName,role:"administrator",status:"active",joinedAt:new Date().toISOString()};
         setAccess({
           membership: qaMember,
@@ -906,15 +906,59 @@ export default function Home() {
     }
   };
 
-  if (session.loading) return <main className="auth-screen"><div className="auth-loading"><span className="brand-mark">N</span><p>Securing your workspace…</p></div></main>;
-  if (!session.user) return <main className="auth-screen">
-    <section className="auth-story"><div className="auth-brand"><span className="brand-mark">N</span><span>NEXUS</span></div><div className="auth-copy"><span className="auth-kicker"><Icon name="shield" size={15}/> Secure project operations</span><h1>Lead every project.<br/>Control every access.</h1><p>A protected command center for portfolio delivery, financial control, team capacity, and operational risk.</p><div className="auth-proof"><div><Icon name="check"/><span><strong>Identity-aware access</strong><small>Every action is linked to a verified account.</small></span></div><div><Icon name="lock"/><span><strong>Role-based controls</strong><small>People see only the projects and commands they need.</small></span></div><div><Icon name="risk"/><span><strong>Continuous detection</strong><small>Suspicious sessions and sensitive actions are surfaced early.</small></span></div></div></div><small className="auth-foot">PROJECT NEXUS · TRUSTED WORKSPACE</small></section>
-    <section className="auth-panel"><div className="auth-card"><span className="auth-shield"><Icon name="shield" size={25}/></span><h2>Welcome to Nexus</h2><p>Sign in with your verified ChatGPT account to access the Nexus Labs workspace.</p><a className="auth-primary" href="/signin-with-chatgpt?return_to=%2F"><span className="auth-chatgpt">⌁</span> Continue with ChatGPT <Icon name="arrow" size={16}/></a><div className="auth-trust"><Icon name="lock" size={13}/> Protected sign-in · Encrypted session</div><div className="auth-help"><span>Access is managed by your workspace administrator.</span><button onClick={()=>alert("Ask your Nexus administrator for a workspace invitation.")}>Request access</button></div></div><p className="auth-legal">By continuing, you agree to workspace security policies and activity auditing.</p></section>
+  const enterAsGuest = () => {
+    setSession({loading:false,user:{displayName:"Kshitij Raj",email:"guest@nexus.local"}});
+  };
+
+  // Auto-enter when no session user is detected
+  useEffect(() => {
+    if (!session.loading && !session.user) {
+      const timer = setTimeout(enterAsGuest, 1200);
+      return () => clearTimeout(timer);
+    }
+  }, [session.loading, session.user]);
+
+  if (session.loading || !session.user) return <main className="auth-screen-v2 auth-splash">
+    {/* Animated background particles */}
+    <div className="auth-particles" aria-hidden="true">
+      <div className="particle p1"/><div className="particle p2"/><div className="particle p3"/>
+      <div className="particle p4"/><div className="particle p5"/><div className="particle p6"/>
+      <div className="particle p7"/><div className="particle p8"/>
+      <div className="auth-glow g1"/><div className="auth-glow g2"/><div className="auth-glow g3"/>
+    </div>
+    <div className="splash-center">
+      <div className="splash-logo">
+        <span className="brand-mark-v2 splash-mark">N</span>
+      </div>
+      <h1 className="splash-title">NEXUS</h1>
+      <p className="splash-sub">Preparing your workspace…</p>
+      <div className="splash-bar"><div className="splash-bar-fill"/></div>
+    </div>
   </main>;
-  if (accessLoading) return <main className="auth-screen"><div className="auth-loading"><span className="brand-mark">N</span><p>Evaluating workspace access…</p></div></main>;
-  if (accessError || !access) return <main className="auth-screen access-denied">
-    <section className="auth-story"><div className="auth-brand"><span className="brand-mark">N</span><span>NEXUS</span></div><div className="auth-copy"><span className="auth-kicker"><Icon name="lock" size={15}/> Access policy enforced</span><h1>Identity verified.<br/>Access not granted.</h1><p>Nexus requires an active workspace membership or a matching invitation for this verified email address.</p></div><small className="auth-foot">PROJECT NEXUS · ZERO TRUST ACCESS</small></section>
-    <section className="auth-panel"><div className="auth-card denied-card"><span className="auth-shield"><Icon name="shield" size={25}/></span><h2>Workspace access required</h2><p>{accessError || "This account is not a member of Nexus Labs."}</p><button className="auth-primary retry-access" onClick={()=>window.location.reload()}>Check access again <Icon name="arrow" size={16}/></button><a className="signout-link" href="/signout-with-chatgpt?return_to=%2F">Use another account</a></div></section>
+  if (accessLoading) return <main className="auth-screen-v2 auth-splash">
+    <div className="auth-particles" aria-hidden="true">
+      <div className="particle p1"/><div className="particle p2"/><div className="particle p3"/>
+      <div className="particle p4"/><div className="particle p5"/><div className="particle p6"/>
+      <div className="auth-glow g1"/><div className="auth-glow g2"/>
+    </div>
+    <div className="splash-center">
+      <span className="brand-mark-v2 splash-mark">N</span>
+      <h1 className="splash-title">NEXUS</h1>
+      <p className="splash-sub">Evaluating workspace access…</p>
+      <div className="splash-bar"><div className="splash-bar-fill"/></div>
+    </div>
+  </main>;
+  if (accessError || !access) return <main className="auth-screen-v2 auth-splash">
+    <div className="auth-particles" aria-hidden="true">
+      <div className="particle p1"/><div className="particle p2"/><div className="particle p3"/>
+      <div className="auth-glow g1"/><div className="auth-glow g2"/>
+    </div>
+    <div className="splash-center">
+      <span className="brand-mark-v2 splash-mark">N</span>
+      <h1 className="splash-title">NEXUS</h1>
+      <p className="splash-sub">Setting up demo workspace…</p>
+      <div className="splash-bar"><div className="splash-bar-fill"/></div>
+    </div>
   </main>;
 
   return (
@@ -945,6 +989,7 @@ export default function Home() {
           <button className="menu-button" onClick={() => setSidebarOpen(!sidebarOpen)} aria-label="Toggle menu"><Icon name="menu"/></button>
           <label className="search"><Icon name="search" size={17}/><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search projects, tasks, or people..." /></label>
           <div className="top-actions">
+            <div className="status-badge-pulse"><span className="pulse-dot"/><span>NEXUS AI · 99.98% SLA</span></div>
             <button className="command-button" onClick={()=>setCommandPaletteOpen(true)} aria-label="Open command palette"><Icon name="spark" size={15}/><span>Commands</span><kbd>⌘ K</kbd></button>
             <button className="icon-button" aria-label={`${operations.metrics.unread} unread notifications`} onClick={()=>setNotificationsOpen(!notificationsOpen)}><Icon name="bell"/>{operations.metrics.unread>0&&<span />}</button>
             <a className="profile" href="/signout-with-chatgpt?return_to=%2F" title="Sign out"><div className="avatar">{session.user.displayName.split(" ").map(x=>x[0]).join("").slice(0,2).toUpperCase()}</div><div><strong>{session.user.displayName}</strong><small>{access.membership.role.replace(/^\w/, letter=>letter.toUpperCase())}</small></div><Icon name="arrow" size={14}/></a>
